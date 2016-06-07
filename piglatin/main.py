@@ -15,21 +15,29 @@
 # limitations under the License.
 #
 import webapp2
+import jinja2
+import os
+
+this_environ = jinja2.Environment(
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+    extensions=['jinja2.ext.autoescape'],
+    autoescape=True)
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write('Hello world!')
 
-
-
 class ProgramHandler(webapp2.RequestHandler):
     def get(self):
-        tot=10
-        self.response.write(tot)
+        progTemplate=this_environ.get_template("templates/Prog.html")
+        self.response.write(progTemplate.render())
+        self.response.write("HOT HOT HOT")
 
 class PigHandler(webapp2.RequestHandler):
     def get(self):
+        print "Finished!"
         self.response.write('Stop being such a pig!')
+        
 
 
 app = webapp2.WSGIApplication([
